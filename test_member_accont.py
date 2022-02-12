@@ -3,7 +3,7 @@ import pytest
 
 
 # Arrange
-@pytest.fixture()
+@pytest.fixture()       #define fixture
 def confirmed_account():
     account = MemberAccount()
     account.register()
@@ -44,12 +44,12 @@ def test_member_account_register():
 
 def test_member_account_active(confirmed_account):
 
-    assert confirmed_account.get_state() == MemberAccount.ACTIVE
+    assert confirmed_account.get_state() == MemberAccount.ACTIVE   #using fixture confirmed_account()
 
 
 def test_creation_and_cancellation(confirmed_account):
     # Act
-    confirmed_account.cancel()
+    confirmed_account.cancel()  #using fixture confirmed_account()
 
     # Assert
     assert confirmed_account.get_state() == MemberAccount.END
@@ -57,7 +57,7 @@ def test_creation_and_cancellation(confirmed_account):
 
 def test_creation_and_change(confirmed_account):
     # Act
-    confirmed_account.change()
+    confirmed_account.change()  #using fixture confirmed_account()
 
     # Assert
     assert confirmed_account.get_state() == MemberAccount.ACTIVE
@@ -85,4 +85,11 @@ def test_member_account_dormant_reactivate(confirmed_account):
 
     confirmed_account.reactivate()
     assert confirmed_account.get_state() == MemberAccount.ACTIVE
-#llllll
+
+def test_fail_when_inactive_reactivate(confirmed_account):
+    # Arrange
+    confirmed_account.fee_due()
+
+    # Act
+    with pytest.raises(RuntimeError):
+        confirmed_account.reactivate()

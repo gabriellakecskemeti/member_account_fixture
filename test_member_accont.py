@@ -3,7 +3,7 @@ import pytest
 
 
 # Arrange
-@pytest.fixture()       #define fixture confirmed account
+@pytest.fixture()       #define fixture confirmed accountgg
 def confirmed_account():
     account = MemberAccount()
     account.register()
